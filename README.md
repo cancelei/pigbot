@@ -1,88 +1,61 @@
-# Pigbot - Personal AI Assistant
+# 🐷 Pigbot — Personal AI Assistant
 
-Pigbot is a self-hosted personal AI assistant designed to integrate seamlessly with popular messaging platforms and provide intelligent coding assistance for developers. The system enables users to interact with AI capabilities through their preferred communication channels while maintaining complete control over their data and infrastructure.
+**Pigbot** is a *personal AI assistant* you run on your own devices.
+It answers you on the channels you already use (WhatsApp, Telegram, Slack, Discord, Google Chat, Signal, iMessage, Microsoft Teams, etc.), plus extension channels like BlueBubbles, Matrix, Zalo, and Zalo Personal. It can speak and listen on macOS/iOS/Android, and can render a live Canvas you control. The Gateway is just the control plane — the product is the assistant.
 
-## Executive Summary
+If you want a personal, single-user assistant that feels local, fast, and always-on, this is it.
 
-**Target Audience:** Vibe Coders and developers seeking efficient, accessible AI assistance without leaving their workflow environment.
+## Models (selection + auth)
 
-Pigbot creates a versatile, privacy-focused AI assistant that lives where developers already work—in their messaging apps—and excels at completing IDE tasks through natural conversation.
+- Models config + CLI
+- Auth profile rotation (OAuth vs API keys) + fallbacks
 
-## Core Value Propositions
+## Install (recommended)
 
-- **Multi-Platform Integration:** Works across WhatsApp, Telegram, Slack, Discord, Google Chat, Signal, iMessage, and more
-- **Self-Hosted:** Full data ownership and privacy control
-- **Developer-Centric:** Specialized in IDE task completion and code assistance
-- **Effortless Interaction:** Natural language commands for complex development tasks
+Runtime: **Node ≥22**.
 
-## Key Differentiators
+```bash
+npm install -g pigbot@latest
+# or: pnpm add -g pigbot@latest
 
-- Runs on user's own infrastructure (local or cloud)
-- No vendor lock-in or data sharing concerns
-- Platform-agnostic messaging integration
-- Optimized for developer workflows
+pigbot onboard --install-daemon
+```
 
-## Technical Architecture
+The wizard installs the Gateway daemon (launchd/systemd user service) so it stays running.
 
-### System Components
+## Quick start (TL;DR)
 
-#### 1. Core AI Engine
-- **LLM Integration Layer**
-  - Support for multiple AI models (OpenAI, Anthropic, local models via Ollama/LM Studio)
-  - Model selection and fallback mechanisms
-  - Context management and conversation history
-  - Token optimization and cost control
+Runtime: **Node ≥22**.
 
-#### 2. Messaging Platform Adapters
-- **Universal Messaging Bridge**
-  - WhatsApp Business API / WhatsApp Web integration
-  - Telegram Bot API
-  - Slack Bot API
-  - Discord Bot API
-  - Google Chat API
-  - Signal API (via signal-cli)
-  - iMessage (via AppleScript/shortcuts on macOS)
-- **Standardized Message Format**
-  - Unified message schema across platforms
-  - Media handling (images, files, code snippets)
-  - Rich formatting support
+```bash
+pigbot onboard --install-daemon
 
-#### 3. IDE Integration Module
-- **Code Execution Environment**
-  - Sandboxed execution for code testing
-  - Multi-language support (Python, JavaScript, Java, Go, Rust, etc.)
-  - Dependency management
-- **IDE Task Handlers**
-  - Code generation and refactoring
-  - Bug detection and fixing
-  - Documentation generation
-  - Unit test creation
-  - Code review and optimization
-  - Git operations assistance
+pigbot gateway --port 18789 --verbose
 
-#### 4. Data & State Management
-- **User Profile Storage**
-  - Preferences and settings
-  - Platform-specific configurations
-  - API keys and credentials (encrypted)
-- **Conversation Context**
-  - Session management
-  - Multi-turn conversation tracking
-  - Project context awareness
-- **Database Layer**
-  - SQLite for lightweight deployments
-  - PostgreSQL for production environments
-  - Redis for caching and session storage
+# Send a message
+pigbot message send --to +1234567890 --message "Hello from Pigbot"
 
-#### 5. Security & Authentication
-- **End-to-End Encryption Support**
-  - Secure credential storage
-  - API key management
-  - Optional E2E encryption for stored data
-- **Access Control**
-  - User authentication per platform
-  - Rate limiting
-  - Command authorization
+# Talk to the assistant (optionally deliver back to any connected channel: WhatsApp/Telegram/Slack/Discord/Google Chat/Signal/iMessage/BlueBubbles/Microsoft Teams/Matrix/Zalo/Zalo Personal)
+pigbot agent --message "Ship checklist" --thinking high
+```
+
+## From source (development)
+
+Prefer `pnpm` for builds from source. Bun is optional for running TypeScript directly.
+
+```bash
+git clone https://github.com/mochiyaki/pigbot.git
+cd pigbot
+
+pnpm install
+pnpm ui:build # auto-installs UI deps on first run
+pnpm build
+
+pnpm pigbot onboard --install-daemon
+
+# Dev loop (auto-reload on TS changes)
+pnpm gateway:watch
+```
 
 ## Technical Architecture Diagram
 
@@ -128,358 +101,152 @@ Pigbot creates a versatile, privacy-focused AI assistant that lives where develo
 └─────────────────────────────────────────────────────────┘
 ```
 
-## Feature Specifications
+## How it works
 
-### Phase 1: MVP Features
-
-#### Messaging Integration (Tier 1)
-- Telegram bot integration
-- Slack bot integration
-- Discord bot integration
-- Basic text message processing
-- File/code snippet handling
-
-#### Core AI Capabilities
-- Natural language understanding
-- Context-aware responses
-- Code generation
-- Code explanation
-- Simple debugging assistance
-
-#### Basic IDE Tasks
-- Generate code from description
-- Explain code snippets
-- Find and fix syntax errors
-- Refactor code blocks
-- Generate docstrings/comments
-
-#### Self-Hosting Setup
-- Docker containerization
-- Basic configuration interface
-- Installation documentation
-- Health monitoring
-
-### Phase 2: Enhanced Features
-
-#### Additional Platform Support
-- WhatsApp integration
-- Google Chat integration
-- Signal integration
-- Cross-platform message threading
-
-#### Advanced IDE Capabilities
-- Project-wide code analysis
-- Architectural suggestions
-- Performance optimization
-- Security vulnerability detection
-- Test-driven development assistance
-- Git workflow automation
-
-#### Personalization
-- Learning from user preferences
-- Custom command aliases
-- Project-specific contexts
-- Workflow templates
-
-#### Collaboration Features
-- Shared project contexts
-- Team workspaces
-- Code review workflows
-- Knowledge base integration
-
-### Phase 3: Advanced Features
-
-#### Platform-Specific Features
-- iMessage integration (macOS)
-- Rich media responses
-- Interactive buttons/forms
-- Voice message support
-
-#### Developer Tools Integration
-- GitHub/GitLab integration
-- CI/CD pipeline assistance
-- Issue tracking integration
-- Documentation site integration
-
-#### AI Model Flexibility
-- Local LLM support (Ollama, LM Studio)
-- Model fine-tuning capabilities
-- Specialized model routing
-- Cost optimization strategies
-
-#### Enterprise Features
-- Multi-tenancy support
-- Audit logging
-- Compliance tools
-- Advanced analytics
-
-## Implementation Plan
-
-### Timeline Overview
-**Total Estimated Duration:** 2-4 weeks for MVP launch, 8-12 weeks for full Phase 1-2 deployment
-
-### Phase 1: Foundation & MVP (Weeks 1-4)
-
-#### Week 1: Infrastructure & Core Setup
-**Day 1-2: Project Scaffolding**
-- Set up repository structure
-- Define API contracts
-- Configure CI/CD pipeline
-- Establish development environment
-- Create Docker base images
-
-**Day 3-4: Core AI Engine**
-- Implement LLM integration layer
-- Create context management system
-- Build conversation state handler
-- Develop message queue system
-- Set up model configuration system
-
-#### Week 2: Messaging Platform Integration
-**Day 1: Telegram Integration**
-- Implement Telegram Bot API client
-- Create message handler
-- Build response formatter
-- Test basic conversations
-
-**Day 2: Slack Integration**
-- Implement Slack Bot API client
-- Handle Slack-specific formatting
-- Implement slash commands
-- Test workspace integration
-
-**Day 3: Discord Integration**
-- Implement Discord bot
-- Handle server/channel permissions
-- Create rich embed responses
-- Test server deployment
-
-**Day 4: Testing & Refinement**
-- Integration testing across platforms
-- Error handling improvements
-- Performance optimization
-- Documentation updates
-
-#### Week 3: IDE Task Capabilities
-**Day 1-2: Code Understanding**
-- Implement code parsing
-- Build syntax highlighting
-- Create code explanation engine
-- Develop context extraction
-
-**Day 3-4: Code Generation & Manipulation**
-- Implement code generation
-- Build refactoring tools
-- Create debugging assistant
-- Develop unit test generator
-- MVP release preparation
-
-#### Week 4: Testing & Launch Preparation
-**Day 1-2: Comprehensive Testing**
-- End-to-end testing
-- Performance benchmarking
-- Security audit
-- User experience refinement
-
-**Day 3-4: Documentation & Launch**
-- Final documentation updates
-- Create user guides
-- Prepare launch materials
-- Set up monitoring and analytics
-
-### Phase 2: Enhancement & Scale (Weeks 5-12)
-
-#### Week 5-6: Additional Platform Support
-**Week 5: WhatsApp & Google Chat**
-- WhatsApp Business API integration
-- Google Chat webhook setup
-- Message format standardization
-- Cross-platform testing
-
-**Week 6: Signal Integration**
-- Signal-cli setup
-- Message bridge implementation
-- Media handling
-- Security hardening
-
-#### Week 7-8: Advanced IDE Features
-**Week 7: Project Context Awareness**
-- Multi-file analysis
-- Dependency tracking
-- Project structure understanding
-- Codebase indexing
-
-**Week 8: Advanced Code Operations**
-- Architecture analysis
-- Performance profiling assistance
-- Security scanning
-- Code review automation
-
-#### Week 9-10: Personalization & UX
-**Week 9: User Preferences**
-- Preference management system
-- Custom command system
-- Workflow templates
-- Response style customization
-
-**Week 10: Polish & Optimization**
-- Performance tuning
-- Cost optimization
-- User feedback incorporation
-- Beta testing program
-
-#### Week 11-12: Advanced Features & Enterprise
-**Week 11: Advanced Platform Features**
-- iMessage integration (macOS)
-- Rich media responses
-- Interactive buttons/forms
-- Voice message support
-
-**Week 12: Enterprise & Integration**
-- GitHub/GitLab integration
-- CI/CD pipeline assistance
-- Issue tracking integration
-- Documentation site integration
-
-## Deployment Options
-
-### Local Development
-```bash
-# Clone repository
-git clone https://github.com/yourorg/pigbot.git
-cd pigbot
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your API keys
-
-# Run with Docker
-docker-compose up -d
-
-# Access configuration UI
-open http://localhost:8080
+```
+WhatsApp/Telegram/Slack/Discord/Signal/iMessage/GoogleChat/MicrosoftTeams...
+               │
+               ▼
+┌───────────────────────────────┐
+│            Gateway            │
+│       (control plane)         │
+│     ws://127.0.0.1:18789      │
+└──────────────┬────────────────┘
+               │
+               ├─ Pi agent (RPC)
+               ├─ CLI (pigbot …)
+               ├─ WebChat UI
+               ├─ macOS app
+               └─ iOS / Android nodes
 ```
 
-### Self-Hosted Production
-**Option 1: VPS Deployment**
-- Single DigitalOcean/Linode droplet
-- Docker Compose setup
-- Nginx reverse proxy
-- Let's Encrypt SSL
+## Chat commands
 
-**Option 2: Home Server**
-- Raspberry Pi 4 (8GB) or NUC
-- Docker installation
-- Dynamic DNS setup
-- Port forwarding configuration
+Send these in WhatsApp/Telegram/Slack/Google Chat/Microsoft Teams/WebChat (group commands are owner-only):
 
-**Option 3: Cloud Platform**
-- AWS ECS/EC2
-- Google Cloud Run
-- Azure Container Instances
-- Fly.io or Railway
+- `/status` — compact session status (model + tokens, cost when available)
+- `/new` or `/reset` — reset the session
+- `/compact` — compact session context (summary)
+- `/think <level>` — off|minimal|low|medium|high|xhigh (GPT-5.2 + Codex models only)
+- `/verbose on|off`
+- `/usage off|tokens|full` — per-response usage footer
+- `/restart` — restart the gateway (owner-only in groups)
+- `/activation mention|always` — group activation toggle (groups only)
 
-### Scaling Considerations
-- Horizontal scaling with load balancer
-- Database read replicas
-- Redis cluster for session management
-- CDN for static assets (if web UI)
+## Apps (optional)
 
-## Security & Privacy
+The Gateway alone delivers a great experience. All apps are optional and add extra features.
 
-### Data Protection
-- All credentials encrypted at rest (AES-256)
-- No conversation logging by default (user choice)
-- Platform API keys stored in secure vault
-- Optional E2E encryption for stored contexts
+If you plan to build/run companion apps, follow the platform runbooks below.
 
-### Access Control
-- Per-user authentication tokens
-- Platform-specific user verification
-- Rate limiting per user/platform
-- Command authorization levels
+### macOS (Pigbot.app) (optional)
 
-### Compliance Considerations
-- GDPR-compliant data handling
-- User data deletion capabilities
-- Audit trail options
-- Terms of service for hosted instances
+- Menu bar control for the Gateway and health.
+- Voice Wake + push-to-talk overlay.
+- WebChat + debug tools.
+- Remote gateway control over SSH.
 
-### Best Practices
-- Regular security updates
-- Dependency vulnerability scanning
-- Secrets management (e.g., HashiCorp Vault)
-- Network isolation for code execution
+Note: signed builds required for macOS permissions to stick across rebuilds (see `docs/mac/permissions.md`).
 
-## Go-to-Market Strategy
+### iOS node (optional)
 
-### Target Segments
-1. **Indie Developers:** Solo developers seeking productivity boost
-2. **Small Teams:** 2-10 person development teams
-3. **Privacy-Conscious Orgs:** Companies with strict data policies
-4. **Open Source Enthusiasts:** Contributors wanting AI assistance
+- Pairs as a node via the Bridge.
+- Voice trigger forwarding + Canvas surface.
+- Controlled via `pigbot nodes …`.
 
-### Launch Plan
+### Android node (optional)
 
-**Pre-Launch (Week -1)**
-- Create landing page
-- Build email waitlist
-- Engage dev communities (Reddit, HN, Dev.to)
-- Create demo videos
+- Pairs via the same Bridge + pairing flow as iOS.
+- Exposes Canvas, Camera, and Screen capture commands.
 
-**Soft Launch (Week 0)**
-- Private beta with 50-100 users
-- Collect feedback
-- Fix critical issues
-- Build case studies
+## Configuration
 
-**Public Launch (Week 1)**
-- Release v1.0
-- Product Hunt launch
-- Technical blog posts
-- Social media campaign
+Minimal `~/.pigbot/pigbot.json` (model + defaults):
 
-**Growth Phase (Weeks 2-12)**
-- Community building
-- Plugin/extension ecosystem
-- Partnership with dev tools
-- Conference presentations
+```json5
+{
+  agent: {
+    model: "anthropic/claude-opus-4-5"
+  }
+}
+```
 
-### Marketing Channels
-- Developer communities (Reddit, HN, DevTo)
-- YouTube tutorials and demos
-- Technical blog posts
-- Open source community engagement
-- Tech podcasts and interviews
+## Security model (important)
 
-## Future Roadmap
+- **Default:** tools run on the host for the **main** session, so the agent has full access when it’s just you.
+- **Group/channel safety:** set `agents.defaults.sandbox.mode: "non-main"` to run **non‑main sessions** (groups/channels) inside per‑session Docker sandboxes; bash then runs in Docker for those sessions.
+- **Sandbox defaults:** allowlist `bash`, `process`, `read`, `write`, `edit`, `sessions_list`, `sessions_history`, `sessions_send`, `sessions_spawn`; denylist `browser`, `canvas`, `nodes`, `cron`, `discord`, `gateway`.
 
-### 6 Months
-- Core platform with 6+ messaging integrations
-- Essential IDE task capabilities
-- Self-hosting tools and documentation
-- Active community of 1,000+ users
+### WhatsApp
 
-### 12 Months
-- Enterprise features and SaaS offering
-- Advanced code intelligence
-- Plugin/extension ecosystem
-- Integration marketplace
-- 10,000+ active users
+- Link the device: `pnpm pigbot channels login` (stores creds in `~/.pigbot/credentials`).
+- Allowlist who can talk to the assistant via `channels.whatsapp.allowFrom`.
+- If `channels.whatsapp.groups` is set, it becomes a group allowlist; include `"*"` to allow all.
 
-### 18 Months
-- Multi-language support (UI/UX)
-- Voice interaction capabilities
-- Mobile app companions
-- AI model training platform
-- 50,000+ active users
+### Telegram
 
-## Conclusion
+- Set `TELEGRAM_BOT_TOKEN` or `channels.telegram.botToken` (env wins).
+- Optional: set `channels.telegram.groups` (with `channels.telegram.groups."*".requireMention`); when set, it is a group allowlist (include `"*"` to allow all). Also `channels.telegram.allowFrom` or `channels.telegram.webhookUrl` as needed.
 
-Pigbot addresses a clear market need: developers want AI assistance that integrates naturally into their workflow while maintaining privacy and control. By focusing on self-hosting, multi-platform support, and developer-centric features, Pigbot can carve out a unique position in the AI assistant landscape.
+```json5
+{
+  channels: {
+    telegram: {
+      botToken: "123456:ABCDEF"
+    }
+  }
+}
+```
 
-The phased implementation plan allows for iterative development with early user feedback, while the technical architecture ensures scalability and maintainability. With careful execution and community engagement, Pigbot can become the go-to personal AI assistant for developers who value privacy, flexibility, and seamless integration.
+### Slack
 
-## Documentation Enhancement Note
+- Set `SLACK_BOT_TOKEN` + `SLACK_APP_TOKEN` (or `channels.slack.botToken` + `channels.slack.appToken`).
 
-This documentation was enhanced by Claude, an AI assistant, to provide a comprehensive overview of the project structure and implementation details based on the PROJECT.md file. The timeline and launch plan have been updated to reflect realistic development schedules given today's AI capabilities and rapid technological advancement.
+### Discord
+
+- Set `DISCORD_BOT_TOKEN` or `channels.discord.token` (env wins).
+- Optional: set `commands.native`, `commands.text`, or `commands.useAccessGroups`, plus `channels.discord.dm.allowFrom`, `channels.discord.guilds`, or `channels.discord.mediaMaxMb` as needed.
+
+```json5
+{
+  channels: {
+    discord: {
+      token: "1234abcd"
+    }
+  }
+}
+```
+
+### Signal
+
+- Requires `signal-cli` and a `channels.signal` config section.
+
+### iMessage
+
+- macOS only; Messages must be signed in.
+- If `channels.imessage.groups` is set, it becomes a group allowlist; include `"*"` to allow all.
+
+### Microsoft Teams
+
+- Configure a Teams app + Bot Framework, then add a `msteams` config section.
+- Allowlist who can talk via `msteams.allowFrom`; group access via `msteams.groupAllowFrom` or `msteams.groupPolicy: "open"`.
+
+Browser control (optional):
+
+```json5
+{
+  browser: {
+    enabled: true,
+    controlUrl: "http://127.0.0.1:18791",
+    color: "#FF4500"
+  }
+}
+```
+
+## Acknowledgment
+
+Codebase is forked from Clawdbot and/or Moltbot (MIT License)
+
+## License
+
+This project is licensed under the MIT License
