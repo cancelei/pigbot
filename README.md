@@ -245,7 +245,8 @@ Browser control (optional):
 
 ## Acknowledgment
 
-Codebase is forked from Clawdbot and/or Moltbot (MIT License)
+- core part codebase was forked from Clawdbot/Moltbot https://github.com/moltbot/moltbot (MIT License)
+- vscode extension plugin codebase was forked from https://github.com/mochiyaki/clawdbot (MIT License)
 
 ## License
 
