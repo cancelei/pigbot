@@ -5,6 +5,8 @@ It answers you on the channels you already use (WhatsApp, Telegram, Slack, Disco
 
 ![screenshot](https://raw.githubusercontent.com/mochiyaki/pigbot/master/pigbot.png)
 
+# Project details (part 1)
+
 If you want a personal, single-user assistant that feels local, fast, and always-on, this is it.
 
 ## Models (selection + auth)
@@ -244,6 +246,37 @@ Browser control (optional):
   }
 }
 ```
+
+# Pigbot Extension (part 2)
+
+A simple VS Code extension that manages Pigbot connection status via a status bar item.
+
+*please go to /plugins/vscode/ directory for part 2 codebase development
+
+## Features
+
+- **Status Bar Item**: Shows connection status with three states:
+  - `$(plug) Pigbot - Not connected (click to connect)`
+  - `$(sync~spin) Connecting...` - Connection in progress
+  - `$(check) Pigbot - Connected to Pigbot`
+
+- **OS Detection**: Automatically detects the operating system and uses:
+  - `pigbot status` on Windows (wsl)
+  - `pigbot status` on other platforms
+
+- **Auto-Connect**: Optional setting to automatically connect on startup (disabled by default)
+
+## Usage
+
+1. Click the Pigbot status bar item (bottom right) to connect
+2. The extension will open a terminal and execute the `pigbot status` command
+3. To enable auto-connect, go to Settings and enable `Pigbot: Auto Connect`
+
+## Development
+
+1. Install dependencies: `npm install`
+2. Compile: `npm run compile`
+3. Press F5 to launch the Extension Development Host
 
 ## Acknowledgment
 
