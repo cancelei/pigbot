@@ -39,7 +39,7 @@ pigbot gateway --port 18789 --verbose
 # Send a message
 pigbot message send --to +1234567890 --message "Hello from Pigbot"
 
-# Talk to the assistant (optionally deliver back to any connected channel: WhatsApp/Telegram/Slack/Discord/Google Chat/Signal/iMessage/BlueBubbles/Microsoft Teams/Matrix/Zalo/Zalo Personal)
+# Talk to the assistant (optionally deliver back to any connected channel, i.e., WhatsApp/Telegram/Slack/Discord etc.
 pigbot agent --message "Ship checklist" --thinking high
 ```
 
@@ -108,7 +108,7 @@ pnpm gateway:watch
 ## How it works
 
 ```
-WhatsApp/Telegram/Slack/Discord/Signal/iMessage/GoogleChat/MicrosoftTeams...
+WhatsApp/ Telegram/ Slack/ Discord/ Signal/ iMessage/ GoogleChat/ MicrosoftTeams...
                │
                ▼
 ┌───────────────────────────────┐
@@ -126,7 +126,7 @@ WhatsApp/Telegram/Slack/Discord/Signal/iMessage/GoogleChat/MicrosoftTeams...
 
 ## Chat commands
 
-Send these in WhatsApp/Telegram/Slack/Google Chat/Microsoft Teams/WebChat (group commands are owner-only):
+Send these in WhatsApp/ Telegram/ Slack/ Google Chat/ Microsoft Teams/ WebChat (group commands are owner-only):
 
 - `/status` — compact session status (model + tokens, cost when available)
 - `/new` or `/reset` — reset the session
