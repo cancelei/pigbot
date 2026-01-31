@@ -311,7 +311,7 @@ export async function ensureFunnel(
     const { stdout } = await execWithSudoFallback(
       exec,
       tailscaleBin,
-      ["funnel", "--yes", "--bg", `${port}`],
+      ["funnel", "--bg", `http://127.0.0.1:${port}`],
       {
         maxBuffer: 200_000,
         timeoutMs: 15_000,
@@ -364,7 +364,7 @@ export async function ensureFunnel(
 
 export async function enableTailscaleServe(port: number, exec: typeof runExec = runExec) {
   const tailscaleBin = await getTailscaleBinary();
-  await execWithSudoFallback(exec, tailscaleBin, ["serve", "--bg", "--yes", `${port}`], {
+  await execWithSudoFallback(exec, tailscaleBin, ["serve", "--bg", `http://127.0.0.1:${port}`], {
     maxBuffer: 200_000,
     timeoutMs: 15_000,
   });
@@ -380,7 +380,7 @@ export async function disableTailscaleServe(exec: typeof runExec = runExec) {
 
 export async function enableTailscaleFunnel(port: number, exec: typeof runExec = runExec) {
   const tailscaleBin = await getTailscaleBinary();
-  await execWithSudoFallback(exec, tailscaleBin, ["funnel", "--bg", "--yes", `${port}`], {
+  await execWithSudoFallback(exec, tailscaleBin, ["funnel", "--bg", `http://127.0.0.1:${port}`], {
     maxBuffer: 200_000,
     timeoutMs: 15_000,
   });
